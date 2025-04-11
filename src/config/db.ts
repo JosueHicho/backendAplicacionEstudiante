@@ -15,7 +15,7 @@ export const AppDataSource = new DataSource({
     synchronize: true,
     logging: false,
     entities: [
-        'src/entity/**/*.ts'
+        'src/entities/**/*.ts'
     ]//,
     //ssl: {
     //    rejectUnauthorized: false;
