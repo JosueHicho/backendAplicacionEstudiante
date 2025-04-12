@@ -30,8 +30,7 @@ export const getEstudiante = async(req: Request, res: Response) => {
         console.log('Error al obtener los datos del estudiante ' + error)
     }
 }
-
-//Crear un estudiante
+/*
 export const createEstudiante = async(req: Request, res: Response) => {
 
     try{
@@ -45,6 +44,38 @@ export const createEstudiante = async(req: Request, res: Response) => {
         console.log('Error al crear el estudiante ' + error)
     }
 }
+*/
+//Crear un estudiante
+export const createEstudiante = async(req: Request, res: Response) => {
+
+    try{
+        const { 
+            nombreEstudiante, 
+            direccion,
+            telefono,
+            idCarrera,
+            correoElectronico
+        } = req.body;
+
+        if(!nombreEstudiante ||!direccion || !telefono || !idCarrera){
+            res.status(400).json({error: 'Faltan campos obligatorios'});
+        }
+
+        const estudiante = await srvCreateEstudiante ({
+            nombreEstudiante,
+            direccion,
+            telefono,
+            idCarrera,
+            correoElectronico
+        });
+
+        res.status(201).json(estudiante);
+
+    }catch(error){
+        console.log('Error al crear el estudiante ' + error)
+    }
+}
+
 
 //Actualizar un estudiante
 export const updateEstudiante = async (req: Request, res: Response) => {

@@ -1,5 +1,6 @@
 import { Estudiante } from '../entities/Estudiante.entity';
 import { AppDataSource } from '../config/db';
+import { Carrera } from '../entities/Carrera.entity';
 
 //Repositorio
 const estudianteRepository = AppDataSource.getRepository(Estudiante);
@@ -13,13 +14,37 @@ export const srvGetEstudiantes = async() => {
 }
 
 //NUEVO ESTUDIANTE
-export const srvCreateEstudiante = async (pnombreEstudiante: string) => {
+export const srvCreateEstudiante = async (estudanteData:
+    {
+        nombreEstudiante: string;
+        direccion: string;
+        telefono: string;
+        idCarrera: number;
+        correoElectronico?: string;
+    }
+) => {
+    //Modificando el código por mi cuenta para hacer las pruebas con postman
+    const nuevoEstudiante = new Estudiante();
+
+    //Mapear los campos
+    nuevoEstudiante.nombreEstudiante = estudanteData.nombreEstudiante;
+    nuevoEstudiante.direccion = estudanteData.direccion;
+    nuevoEstudiante.correoElectronico = estudanteData.correoElectronico;
+    nuevoEstudiante.telefono = estudanteData.telefono;
+
+    nuevoEstudiante.carrera = {idCarrera: estudanteData.idCarrera}as Carrera;
+
+    return await estudianteRepository.save(nuevoEstudiante);
+}
+
+/*export const srvCreateEstudiante = async (pnombreEstudiante: string) => {
 
     const nuevoEstudiante = new Estudiante();
     nuevoEstudiante.nombreEstudiante = pnombreEstudiante;
 
     return await estudianteRepository.save(nuevoEstudiante);
-}
+} */
+
 
 export const srvGetEstudianteByID = async (pIdEstudiante: number) => {
     const estudiante = await estudianteRepository.findOne({
